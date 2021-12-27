@@ -1,10 +1,41 @@
 import React, {useState} from "react";
 
 import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
 
 import Contents from './common.js';
 
+import { speech_recognition, stop_stt, cancel_stt } from '../lib/stt.js';
+
+const SttButton = (props) => {
+    let button;
+    if (props.sttStatus) {
+        button = <Button variant="contained" style={{ color: "red", backgroundColor: "white" }} onClick={props.onStop}>音声認識終了</Button>;
+    } else {
+        button = <Button variant="contained" style={{ color: "red", backgroundColor: "white" }} onClick={props.onStart}>音声認識開始</Button>;
+    }
+
+    return (
+        <>
+            { button }
+        </>
+    )
+}
+
 const Index = () => {
+
+    const [sttStatus, setSttStatus] = useState(false);
+
+    const handleStart = () => {
+        setSttStatus(true);
+        speech_recognition(client_id, client_secret, domain_id, (text)=> {console.log(text);});
+    };
+
+    const handleStop = () => {
+        setSttStatus(false);
+        stop_stt();
+    };
+
     return(
         <>
         <Contents>
@@ -21,6 +52,8 @@ const Index = () => {
                 sapien faucibus et molestie ac.
                 にほんご．日本語
             </Typography>
+
+            <SttButton sttStatus={sttStatus} onStart={handleStart} onStop={handleStop} />
         </Contents>
         </>
     )
