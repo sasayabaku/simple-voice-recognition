@@ -12,7 +12,8 @@
     "start": "gatsby develop",
     "build": "gatsby build",
     "serve": "gatsby serve",
-    "clean": "gatsby clean"
+    "clean": "gatsby clean",
+    "local": "gatsby develop -S -H 0.0.0.0"
   },
   "dependencies": {
     "@emotion/react": "^11.7.1",
