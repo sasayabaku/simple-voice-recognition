@@ -1,0 +1,18 @@
+name: Build APP Test
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Start App
+        run: | 
+          yarn
+          yarn build

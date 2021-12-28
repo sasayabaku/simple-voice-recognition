@@ -1,5 +1,5 @@
-import React, {useState} from "react";
-import {useSelector, useDispatch} from 'react-redux';
+import React, { useState } from "react";
+import {useSelector} from 'react-redux';
 import { selectClientId, selectClientSecret, selectDomainId } from '../state/slices/settingSlice';
 
 import Typography from '@mui/material/Typography';

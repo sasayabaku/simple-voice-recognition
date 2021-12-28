@@ -1,16 +1,22 @@
-import React, {useState} from "react";
+import React, {useState, useRef} from "react";
 import { styled, useTheme } from '@mui/material/styles';
 
+import Typography from '@mui/material/Typography';
 import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Drawer from '@mui/material/Drawer';
+import MenuItem from '@mui/material/MenuItem';
 
-import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import Box from '@mui/material/Box';
 
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
+import SettingsIcon from '@mui/icons-material/Settings';
 
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -19,6 +25,8 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+import SettingDialog from '../components/common/dialog/SettingDialog';
 
 const drawerWidth = 240;
 
@@ -78,7 +86,7 @@ const theme = createTheme({
 });
 
 const linkData = [
-    {label: 'Authentication'},
+    {label: 'Speech Memo'},
     {label: 'Database'}
 ]
 
@@ -131,6 +139,8 @@ const SideMenu = ({open}) => {
 
 const Contents = ({ children }) => {
 
+    const ref = useRef(null);
+
     const [open, setOpen] = useState(false);
     const handleDrawer = () => {
         if (open) {
@@ -139,6 +149,15 @@ const Contents = ({ children }) => {
             setOpen(true);
         }
     };
+
+    const [dialogOpen, setDialogOpen] = useState(false);
+    const handleDialog = () => {
+        if (dialogOpen) {
+            setDialogOpen(false);
+        } else {
+            setDialogOpen(true);
+        }
+    }
 
     return(
         <ThemeProvider theme={theme}>
@@ -156,8 +175,21 @@ const Contents = ({ children }) => {
                         >
                             <MenuIcon />
                         </IconButton>
+
+                        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                        </Typography>
+
+                        <IconButton
+                            edge="start"
+                            color="inherit"
+                            aria-label="menu"
+                            onClick={handleDialog}
+                        >
+                            <SettingsIcon />
+                        </IconButton>
                     </Toolbar>
                 </AppBar>
+
                 <Drawer
                 sx={{
                     width: drawerWidth,
@@ -171,6 +203,19 @@ const Contents = ({ children }) => {
                     anchor="left"
                     open={open} 
                 ><SideMenu open={open} /></Drawer>
+
+                <Dialog
+                    open={dialogOpen}
+                    onClose={handleDialog}
+                >
+                    <DialogTitle>
+                        {"Application Settings"}
+                    </DialogTitle>
+
+                    <DialogContent>
+                        <SettingDialog inputRef={ref} />
+                    </DialogContent>
+                </Dialog>
                 
                 <Main open={open}>
                     <DrawerHeader />
