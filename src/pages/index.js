@@ -6,7 +6,7 @@ import { selectSttText, setSttResult } from '../state/slices/vrgSlice';
 
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import Divider from '@mui/material/divider';
+import Divider from '@mui/material/Divider';
 
 import Contents from './common.js';
 
