@@ -1,9 +1,12 @@
 import React, { useState } from "react";
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import { selectClientId, selectClientSecret, selectDomainId } from '../state/slices/settingSlice';
+import { selectSttText, setSttResult } from '../state/slices/vrgSlice';
+
 
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
 
 import Contents from './common.js';
 
@@ -32,10 +35,17 @@ const Index = () => {
     const client_secret = useSelector(selectClientSecret);
     const domain_id = useSelector(selectDomainId);
 
+    const stt_text = useSelector(selectSttText);
+    const dispatch = useDispatch();
+
+    const handleSttResult = (text) => {
+        console.log(text)
+        dispatch(setSttResult({ value: text }))
+    }
 
     const handleStart = () => {
         setSttStatus(true);
-        speech_recognition(client_id, client_secret, domain_id, (text)=> {console.log(text);});
+        speech_recognition(client_id, client_secret, domain_id, (text)=> {handleSttResult(text)});
     };
 
     const handleStop = () => {
@@ -56,8 +66,11 @@ const Index = () => {
                 leo. Mauris commodo quis imperdiet massa tincidunt. Cras tincidunt lobortis
                 feugiat vivamus at augue. At augue eget arcu dictum varius duis at
                 consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa
-                sapien faucibus et molestie ac.
-                にほんご．日本語
+                sapien faucibus et molestie ac．
+            </Typography>
+            <Divider />
+            <Typography paragraph sx={{ marginTop: '.5rem' }}>
+                {stt_text}
             </Typography>
 
             <SttButton sttStatus={sttStatus} onStart={handleStart} onStop={handleStop} />
