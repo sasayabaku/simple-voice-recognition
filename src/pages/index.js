@@ -1,4 +1,6 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
+import {useSelector} from 'react-redux';
+import { selectClientId, selectClientSecret, selectDomainId } from '../state/slices/settingSlice';
 
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
@@ -10,9 +12,9 @@ import { speech_recognition, stop_stt, cancel_stt } from '../lib/stt.js';
 const SttButton = (props) => {
     let button;
     if (props.sttStatus) {
-        button = <Button variant="contained" style={{ color: "red", backgroundColor: "white" }} onClick={props.onStop}>音声認識終了</Button>;
+        button = <Button variant="contained" style={{ color: "white", backgroundColor: "red" }} onClick={props.onStop}>音声認識終了</Button>;
     } else {
-        button = <Button variant="contained" style={{ color: "red", backgroundColor: "white" }} onClick={props.onStart}>音声認識開始</Button>;
+        button = <Button variant="contained" style={{ color: "white", backgroundColor: "red" }} onClick={props.onStart}>音声認識開始</Button>;
     }
 
     return (
@@ -25,6 +27,11 @@ const SttButton = (props) => {
 const Index = () => {
 
     const [sttStatus, setSttStatus] = useState(false);
+
+    const client_id = useSelector(selectClientId);
+    const client_secret = useSelector(selectClientSecret);
+    const domain_id = useSelector(selectDomainId);
+
 
     const handleStart = () => {
         setSttStatus(true);
